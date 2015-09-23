@@ -12,10 +12,10 @@
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 
-include_once('admin/class-admin-settings.php');
+include_once('admin/class-vulgar-settings.php');
 include_once('inc/script-styles.php');
 include_once('inc/cpt-password.php');
-
+include_once('inc/shortcode.php');
 /**
 * Register and enqueue jQuery files to run on frontend, enqueue on admin_init
 */
@@ -44,7 +44,7 @@ function vulgar_settings_link( $actions, $plugin_file )
 
 		if ($plugin == $plugin_file) {
 
-			$settings = array('settings' => '<a href="tools.php?page=vulgar-password">' . __('Settings', 'General') . '</a>');
+			$settings = array('settings' => '<a href="admin.php?page=vulgar-password">' . __('Settings', 'General') . '</a>');
 
     			$actions = array_merge($settings, $actions);
 		}
