@@ -11,8 +11,10 @@ interface iVulgarSettings {
     public function create_vulgar_settings_page();
     public function page_init();
     public function sanitize( $input );
-    public function print_section_info();
-    public function disable_vulgar_password_callback();
+    public function print_options_section_info();
+    public function print_settings_section_info();
+    public function vulgar_option_callback();
+    public function vulgar_setting_callback();
 }
 
 class VulgarSettings implements iVulgarSettings
