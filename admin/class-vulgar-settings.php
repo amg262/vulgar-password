@@ -46,7 +46,7 @@ class VulgarSettings implements iVulgarSettings
             'manage_options',
             'vulgar-password',
             array( $this, 'create_vulgar_options_page' ),
-            plugins_url('vulgar-password/assets/icons/data-protection-20.png'), 100
+            plugins_url('vulgar-password/assets/icon-20x20.png'), 100
         );
 
         add_submenu_page(
