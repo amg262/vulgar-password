@@ -16,6 +16,23 @@ include_once('admin/class-vulgar-settings.php');
 include_once('inc/script-styles.php');
 include_once('inc/cpt-password.php');
 include_once('inc/shortcode.php');
+
+
+/**
+* Flushing permalinks for CPTs on DEACTIVATE
+*/
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+
+/**
+* Flushing permalinks for CPTs ON ACTIVATE
+*/
+register_activation_hook( __FILE__, 'vulgar_password_flush_rewrites' );
+
+function vulgar_password_flush_rewrites() {
+	register_cpt_password();
+	flush_rewrite_rules();
+}
+
 /**
 * Register and enqueue jQuery files to run on frontend, enqueue on admin_init
 */

@@ -48,26 +48,26 @@ function register_cpt_password() {
 /**
 * Taxonomy for Password CPT categories
 */
-add_action( 'init', 'register_txn_password_group' );
+add_action( 'init', 'register_txn_password_Category' );
 
-function register_txn_password_group() {
+function register_txn_password_Category() {
 
     $labels = array( 
-        'name' => _x( 'Password Groups', 'passwords' ),
-        'singular_name' => _x( 'Password Group', 'passwords' ),
-        'search_items' => _x( 'Search Password Groups', 'passwords' ),
-        'popular_items' => _x( 'Popular Password Groups', 'passwords' ),
-        'all_items' => _x( 'All Password Groups', 'passwords' ),
-        'parent_item' => _x( 'Parent Password Group', 'passwords' ),
-        'parent_item_colon' => _x( 'Parent Password Group:', 'passwords' ),
-        'edit_item' => _x( 'Edit Password Group', 'passwords' ),
-        'update_item' => _x( 'Update Password Group', 'passwords' ),
-        'add_new_item' => _x( 'Add New Password Group', 'passwords' ),
-        'new_item_name' => _x( 'New Password Groups', 'passwords' ),
-        'separate_items_with_commas' => _x( 'Separate Password Groups with commas', 'passwords' ),
-        'add_or_remove_items' => _x( 'Add or remove Password Groups', 'passwords' ),
-        'choose_from_most_used' => _x( 'Choose from the most used Password Groups', 'passwords' ),
-        'menu_name' => _x( 'Password Group', 'passwords' ),
+        'name' => _x( 'Password Categories', 'password-category' ),
+        'singular_name' => _x( 'Password Category', 'password-category' ),
+        'search_items' => _x( 'Search Password Categories', 'password-category' ),
+        'popular_items' => _x( 'Popular Password Categories', 'password-category' ),
+        'all_items' => _x( 'All Password Categories', 'password-category' ),
+        'parent_item' => _x( 'Parent Password Category', 'password-category' ),
+        'parent_item_colon' => _x( 'Parent Password Category:', 'password-category' ),
+        'edit_item' => _x( 'Edit Password Category', 'password-category' ),
+        'update_item' => _x( 'Update Password Category', 'password-category' ),
+        'add_new_item' => _x( 'Add New Password Category', 'password-category' ),
+        'new_item_name' => _x( 'New Password Categories', 'password-category' ),
+        'separate_items_with_commas' => _x( 'Separate Password Categories with commas', 'password-category' ),
+        'add_or_remove_items' => _x( 'Add or remove Password Categories', 'password-category' ),
+        'choose_from_most_used' => _x( 'Choose from the most used Password Categories', 'password-category' ),
+        'menu_name' => _x( 'Password Category', 'password-category' ),
     );
 
     $args = array( 
@@ -79,9 +79,9 @@ function register_txn_password_group() {
         'show_tagcloud' => true,
         'show_admin_column' => false,
         'hierarchical' => true,
-        'rewrite' => array('slug' => 'passwords'),
+        'rewrite' => array('slug' => 'password-category'),
         'query_var' => true
     );
 
-    register_taxonomy( 'passwords', array('password'), $args );
+    register_taxonomy( 'password-category', array('password'), $args );
 }

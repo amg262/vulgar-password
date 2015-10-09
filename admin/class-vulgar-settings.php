@@ -67,13 +67,12 @@ class VulgarSettings implements iVulgarSettings
             //array( $this, 'create_vulgar_options_page' )
         );
 
-        /*add_submenu_page(
+        add_submenu_page(
             'vulgar-password',
             'Categories',
             'Categories',
             'manage_options',
-            'edit-tags.php?taxonomy=passwords&post_type=password'//,
-            //array( $this, 'create_vulgar_options_page' )
+            'edit-tags.php?taxonomy=password-category&post_type=password'//,
         );
 
         /*add_submenu_page(
