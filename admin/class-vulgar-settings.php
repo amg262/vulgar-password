@@ -2,7 +2,20 @@
 /**
 * PLUGIN SETTINGS PAGE
 */
-class VulgarSettings
+defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
+
+interface iVulgarSettings {
+    public function __construct();
+    public function add_vulgar_page();
+    public function create_vulgar_options_page();
+    public function create_vulgar_settings_page();
+    public function page_init();
+    public function sanitize( $input );
+    public function print_section_info();
+    public function disable_vulgar_password_callback();
+}
+
+class VulgarSettings implements iVulgarSettings
 {
     /**
      * Holds the values to be used in the fields callbacks
@@ -30,7 +43,7 @@ class VulgarSettings
             'Vulgar Password',
             'manage_options',
             'vulgar-password',
-            array( $this, 'create_vulgar_menu_page' ),
+            array( $this, 'create_vulgar_options_page' ),
             plugins_url('vulgar-password/assets/icons/data-protection-20.png'), 100
         );
 
@@ -40,7 +53,7 @@ class VulgarSettings
             'Passwords',
             'manage_options',
             'edit.php?post_type=password'//,
-            //array( $this, 'create_vulgar_menu_page' )
+            //array( $this, 'create_vulgar_options_page' )
         );
 
         add_submenu_page(
@@ -49,7 +62,7 @@ class VulgarSettings
             'New Password',
             'manage_options',
             'post-new.php?post_type=password'//,
-            //array( $this, 'create_vulgar_menu_page' )
+            //array( $this, 'create_vulgar_options_page' )
         );
 
         /*add_submenu_page(
@@ -58,7 +71,7 @@ class VulgarSettings
             'Categories',
             'manage_options',
             'edit-tags.php?taxonomy=passwords&post_type=password'//,
-            //array( $this, 'create_vulgar_menu_page' )
+            //array( $this, 'create_vulgar_options_page' )
         );
 
         /*add_submenu_page(
@@ -67,7 +80,7 @@ class VulgarSettings
             'Tags',
             'manage_options',
             'edit-tags.php?taxonomy=post_tag&post_type=password'//,
-            //array( $this, 'create_vulgar_menu_page' )
+            //array( $this, 'create_vulgar_options_page' )
         );*/
 
         add_submenu_page(
@@ -83,7 +96,7 @@ class VulgarSettings
     /**
      * Options page callback
      */
-    public function create_vulgar_menu_page()
+    public function create_vulgar_options_page()
     {
         // Set class property
         $this->options = get_option( 'vulgar_password_option' );
@@ -94,7 +107,7 @@ class VulgarSettings
 
             <?php
                 // This prints out all hidden setting fields
-                settings_fields( 'vulgar_password_option_group' );
+                settings_fields( 'vulgar_password_option' );
                 do_settings_sections( 'vulgar-setting-admin' );
                 submit_button('Save Options');
             ?>
@@ -117,7 +130,7 @@ class VulgarSettings
 
             <?php
                 // This prints out all hidden setting fields
-                settings_fields( 'vulgar_settings_option_group' );
+                settings_fields( 'vulgar_settings_section' );
                 do_settings_sections( 'vulgar-setting-admin' );
                 submit_button('Save Options');
             ?>
@@ -132,29 +145,44 @@ class VulgarSettings
     public function page_init()
     {
         register_setting(
-            'vulgar_password_option_group', // Option group
+            'vulgar_option_group', // Option group
             'vulgar_password_option', // Option name
             array( $this, 'sanitize' ) // Sanitize
         );
 
         register_setting(
-            'vulgar_settings_option_group', // Option group
+            'vulgar_settings_group', // Option group
             'vulgar_settings_option', // Option name
             array( $this, 'sanitize' ) // Sanitize
         );
 
         add_settings_section(
-            'vulgar_menu_section', // ID
-            'Vulgar Password Settings', // Title
-            array( $this, 'print_section_info' ), // Callback
-            'vulgar-setting-admin' // Page
+            'vulgar_options_section', // ID
+            'Options', // Title
+            array( $this, 'print_options_section_info' ), // Callback
+            'vulgar-options-admin' // Page
+        );
+
+        add_settings_section(
+            'vulgar_settings_section', // ID
+            'Settings', // Title
+            array( $this, 'print_settings_section_info' ), // Callback
+            'vulgar-settings-admin' // Page
         );
 
         add_settings_field(
-            'disable_vulgar_password', // ID
-            'Disable Vulgar Password', // Title
-            array( $this, 'disable_vulgar_password_callback' ), // Callback
-            'vulgar-setting-admin', // Page
+            'vulgar_option', // ID
+            'Vulgar Option', // Title
+            array( $this, 'vulgar_option_callback' ), // Callback
+            'vulgar-options-admin', // Page
+            'vulgar_options_section' // Section
+        );
+
+        add_settings_field(
+            'vulgar_setting', // ID
+            'Vulgar Setting', // Title
+            array( $this, 'vulgar_setting_callback' ), // Callback
+            'vulgar-settings-admin', // Page
             'vulgar_settings_section' // Section
         );
     }
@@ -168,8 +196,10 @@ class VulgarSettings
     {
         $new_input = array();
 
-        if( isset( $input['disable_vulgar_password'] ) )
-            $new_input['disable_vulgar_password'] = absint( $input['disable_vulgar_password'] );
+        if( isset( $input['vulgar_option'] ) )
+            $new_input['vulgar_option'] = absint( $input['vulgar_option'] );
+        if( isset( $input['vulgar_setting'] ) )
+            $new_input['vulgar_setting'] = absint( $input['vulgar_setting'] );
 
         return $new_input;
     }
@@ -177,24 +207,50 @@ class VulgarSettings
     /**
      * Print the Section text
      */
-    public function print_section_info()
+    public function print_options_section_info()
     {
         print '<br/><p style="font-size:14px; margin:0 25% 0 0;"><strong>Options coming soon!</strong>';
+    }
+
+    /**
+     * Print the Section text
+     */
+    public function print_settings_section_info()
+    {
+        print '<br/><p style="font-size:14px; margin:0 25% 0 0;"><strong>Settings coming soon!</strong>';
     }
     /**
      * Get the settings option array and print one of its values
      */
-    public function disable_vulgar_password_callback()
+    public function vulgar_option_callback()
+    {
+        //Get plugin options
+        $options = get_option( 'vulgar_password_option' );
+
+        if (isset($options['vulgar_option'])) {
+            $html .= '<input type="checkbox" id="vulgar_option"
+             name="vulgar_password_option[vulgar_option]" value="1"' . checked( 1, $options['vulgar_option'], false ) . '/>';
+        } else {
+            $html .= '<input type="checkbox" id="vulgar_option"
+             name="vulgar_password_option[vulgar_option]" value="1"' . checked( 1, $options['vulgar_option'], false ) . '/>';
+        }
+
+        echo $html;
+    }
+    /**
+     * Get the settings option array and print one of its values
+     */
+    public function vulgar_setting_callback()
     {
         //Get plugin options
         $options = get_option( 'vulgar_settings_option' );
 
-        if (isset($options['disable_vulgar_password'])) {
-            $html .= '<input type="checkbox" id="disable_vulgar_password"
-             name="vulgar_settings_option[disable_vulgar_password]" value="1"' . checked( 1, $options['disable_vulgar_password'], false ) . '/>';
+        if (isset($options['vulgar_setting'])) {
+            $html .= '<input type="checkbox" id="vulgar_setting"
+             name="vulgar_settings_option[vulgar_setting]" value="1"' . checked( 1, $options['vulgar_setting'], false ) . '/>';
         } else {
-            $html .= '<input type="checkbox" id="disable_vulgar_password"
-             name="vulgar_settings_option[disable_vulgar_password]" value="1"' . checked( 1, $options['disable_vulgar_password'], false ) . '/>';
+            $html .= '<input type="checkbox" id="vulgar_setting"
+             name="vulgar_settings_option[vulgar_setting]" value="1"' . checked( 1, $options['vulgar_setting'], false ) . '/>';
         }
 
         echo $html;

@@ -2,6 +2,8 @@
 /*
 * Custom Post Type for Vulgar passwords
 */
+defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
+
 add_action( 'init', 'register_cpt_password' );
 
 function register_cpt_password() {

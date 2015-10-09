@@ -3,6 +3,7 @@
 /**
  * Enqueue scripts and styles
  */
+defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 function outofstock_script_styles() { ?>
     <script type="text/javascript">
       jQuery(document).ready(function($){
