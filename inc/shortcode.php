@@ -6,7 +6,7 @@ function vulgar_password_shortcode( $attributes ) {
         'bar' => 'something else',
     ), $attributes );
 
-    return "Vulgar Password shortcode";
+    return '<input type="text" vulgar_password';
 }
 
 add_shortcode( 'vulgar', 'vulgar_password_shortcode' );

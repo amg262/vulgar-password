@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 include_once('admin/class-vulgar-settings.php');
 include_once('inc/script-styles.php');
 include_once('inc/cpt-password.php');
+include_once('inc/cpt-swear.php');
 include_once('inc/shortcode.php');
 
 
@@ -29,6 +30,7 @@ register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 register_activation_hook( __FILE__, 'vulgar_password_flush_rewrites' );
 
 function vulgar_password_flush_rewrites() {
+	register_cpt_swear();
 	register_cpt_password();
 	flush_rewrite_rules();
 }
@@ -46,7 +48,15 @@ function register_vulgar_scripts() {
 	wp_enqueue_style( 'vulgar_css' );
 }
 
-
+add_action( 'wp_enqueue_scripts',  'register_strength_js_scripts');
+function register_strength_js_scripts(){
+	wp_register_script( 'strength_js', plugins_url('inc/strength.js', __FILE__), array('jquery'));
+	wp_register_script( 'strength_min_js', plugins_url('inc/strength.min.js', __FILE__), array('jquery'));
+	wp_register_style( 'strength_css', plugins_url('inc/strength.css', __FILE__), array('jquery'));
+	wp_enqueue_script( 'strength_js' );
+	wp_enqueue_script( 'strength_min_js' );
+	wp_enqueue_style( 'strength_css' );
+}
 /**
 * Adding Settings link to plugin page
 */
@@ -67,4 +77,30 @@ function vulgar_settings_link( $actions, $plugin_file )
 		}
 
 		return $actions;
+}
+add_shortcode( 'the_swear', 'query_the_swear' );
+function query_the_swear( ) {
+	$post_type = 'swear';
+	$end = "";
+	$count = 0;
+	$args = array( 'post_type' => $post_type,
+                   'posts_per_page' => -1,
+                   'orderby' => 'rand'
+                   );
+	$loop = new WP_Query( $args );
+	//var_dump($loop);
+    while ( $loop->have_posts() ) : $loop->the_post();
+    	//echo the_title();
+    	$str .= get_the_title();
+
+    	if (strlen($str) <= 30) {
+    		$end = $str;
+    	}
+    	//echo $count ;
+    	$count += 1;
+	endwhile;
+
+	return $end;
+
+    wp_reset_postdata();
 }
