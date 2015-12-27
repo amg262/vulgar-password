@@ -11,14 +11,11 @@
 */
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
+include_once('classes/class-vulgar-settings.php');
 include_once('inc/cpt.php');
 
 include_once('inc/script-styles.php');
-add_action( 'init','vp_init' );
-function vp_init(){
 
-add_post_type_support( 'page', 'post-formats' );
-}
 function vulgar_db_sync() {
 	if ( ! wp_next_scheduled( '' ) ) {
 		wp_schedule_event( current_time( 'timestamp' ), 'twicedaily', '' );
@@ -52,7 +49,9 @@ function query_the_swear( ) {
         $count += 1;
     endwhile;
     
-    return $final_str.'43';
+    $num = rand(0, 999);
+
+    return $final_str.$num;
 
     wp_reset_postdata();
 }
@@ -65,11 +64,14 @@ function clean_term_string($str, $index) {
 
 		$str2 = str_replace(" ", "", $str);
 		$str3 = str_replace(",", "", $str2);
-		
+		$str4 = str_replace("'", "", $str3);
+		$str5 = str_replace(".", "", $str4);
+		$str6 = str_replace("-", "", $str5);
+
 		if ($index <= 1) {
-			$clean_str = ucfirst($str3);
+			$clean_str = ucfirst($str6);
 		} else {
-			$clean_str = $str3;
+			$clean_str = $str6;
 		}
 
 	}
@@ -105,11 +107,11 @@ if ((!interface_exists('i_VulgarPassword')) && (!(class_exists('VulgarPassword')
 		function __construct() {
 			$this->class_dir = 'classes/class-';
 			
-			include_once( 'classes/class-vulgar-db.php' );
+			//include_once( 'classes/class-vulgar-db.php' );
 			//include_once( 'classes/class-vulgar-post.php' );
-			include_once( 'classes/class-vulgar-settings.php' );
+			//include_once( 'classes/class-vulgar-settings.php' );
 
-			$asd = new VulgarPasswordSettings();
+			//$asd = new VulgarPasswordSettings();
 			//add_action( 'admin_init', '' );
 			//add_action( 'init', 'register_vulgar_scripts' );
 			//add_action( 'wp_enqueue_scripts', 'register_strength_js_scripts' );
@@ -128,7 +130,7 @@ if ((!interface_exists('i_VulgarPassword')) && (!(class_exists('VulgarPassword')
 
 				if ($plugin == $plugin_file) {
 
-					$settings = array('settings' => '<a href="admin.php?page=vulgar-password">' . __('Settings', 'General') . '</a>');
+					$settings = array('settings' => '<a href="options-general.php?page=vulgar-password">' . __('Settings', 'General') . '</a>');
 
 		    			$actions = array_merge($settings, $actions);
 				}
