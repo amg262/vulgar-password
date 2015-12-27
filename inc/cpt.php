@@ -111,7 +111,7 @@ add_action('init','flush_permalinks');
         register_taxonomy( 'term-tags', array('vulgar-term'), $args );
 
         $labels = array( 
-            'name' => _x( 'Categories', 'vulgarities' ),
+            'name' => _x( 'Term Categories', 'term-category' ),
             'singular_name' => _x( 'Term Category', 'vulgarities' ),
             'search_items' => _x( 'Search Term Category', 'vulgarities' ),
             'popular_items' => _x( 'Popular Term Category', 'vulgarities' ),
@@ -137,11 +137,11 @@ add_action('init','flush_permalinks');
             'show_tagcloud' => true,
             'show_admin_column' => true,
             'hierarchical' => true,
-           // 'rewrite' => array('slug' => 'vulgarities'),
+            'rewrite' => array('slug' => 'term-category'),
             'query_var' => true
         );
 
-        register_taxonomy( 'vulgarities', array('vulgar-term'), $args );
+        register_taxonomy( 'term-category', array('vulgar-term'), $args );
       //  add_post_type_support( 'vulgar-term', array( 'aside', 'quote' ));
 
         //add_post_type_support( 'vulgar-term', 'post-formats' );

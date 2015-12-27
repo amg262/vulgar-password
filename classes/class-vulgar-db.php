@@ -62,7 +62,7 @@ class VulgarDB {
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
-        var_dump($sql);
+       // var_dump($sql);
 
     }
 
@@ -84,7 +84,7 @@ class VulgarDB {
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
-                var_dump($sql);
+                //var_dump($sql);
 
 
     }

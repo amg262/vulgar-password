@@ -211,21 +211,7 @@ class VulgarPasswordSettings {
                                 
                             </td>
                         </tr>
-                        <tr>
-                            <?php //$key = 'delete_data'; ?>
-                            <th scope="row">
-                                Force Deletion
-                            </th>
-                            <td>
-                                <fieldset><?php $key = 'delete_forced'; ?>
-                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
-                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="checkbox" value="1" <?php checked(1, $vulgar_password_options[$key], true ); ?> />
-                                        Bypass trash can and delete permanently.
-                                    </label>
-                                <!--<p class="description">Use this as a factory restore.</p>-->
-                                
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <th scope="row">
                                 Uninstall Database
@@ -267,13 +253,13 @@ class VulgarPasswordSettings {
                         <tr>
                             <?php //$key = 'delete_data'; ?>
                             <th scope="row">
-                                Password Length
+                                Min Password Length
                             </th>
                             <td>
        
-                                <fieldset><?php $key = 'password_length'; ?>
+                                <fieldset><?php $key = 'min_password_length'; ?>
                                     <label for="vulgar_password_options[<?php echo $key; ?>]">
-                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="12" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
                                         
                                     </label>
                                 <p class="description">Use this as a factory restore.</p>
@@ -283,12 +269,28 @@ class VulgarPasswordSettings {
                         <tr>
                             <?php //$key = 'delete_data'; ?>
                             <th scope="row">
-                                Number of random digits
+                                Max Password Length
+                            </th>
+                            <td>
+       
+                                <fieldset><?php $key = 'max_password_length'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="18" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        
+                                    </label>
+                                <p class="description">Use this as a factory restore.</p>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <?php //$key = 'delete_data'; ?>
+                            <th scope="row">
+                                Number of Random Digits
                             </th>
                             <td>
                                 <fieldset><?php $key = 'number_digits'; ?>
                                     <label for="vulgar_password_options[<?php echo $key; ?>]">
-                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="3" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
                                         
                                     </label>
                                 <!--<p class="description">Use this as a factory restore.</p>-->
@@ -302,8 +304,24 @@ class VulgarPasswordSettings {
                             <td>
                                 <fieldset><?php $key = 'posts_per_page'; ?>
                                     <label for="vulgar_password_options[<?php echo $key; ?>]">
-                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="-1" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
                                         Default of -1 (all)
+                                    </label>
+                                <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+
+                         <tr>
+                            <th scope="row">
+                                Order by
+                            </th>
+                            <td>
+                                <fieldset><?php $key = 'order_by'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="rand" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        Default of Random
                                     </label>
                                 <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
                                 </fieldset>
@@ -392,6 +410,25 @@ class VulgarPasswordSettings {
                                     </label>
                                 <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
                                 </fieldset>
+                                
+                            </td>
+                        </tr>
+
+                       
+
+                        <tr>
+                            <?php //$key = 'delete_data'; ?>
+                            <th scope="row">
+                                Run Cron Job
+                            </th>
+                            <td>
+       
+                                <fieldset><?php $key = 'cron_job'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="checkbox" value="1" <?php checked(1, $vulgar_password_options[$key], true ); ?> />
+                                        Delete all posts, attachments, and plugin settings when uninstalled.
+                                    </label>
+                                <p class="description">Use this as a factory restore.</p>
                                 
                             </td>
                         </tr>

@@ -117,6 +117,7 @@ function get_post_id() {
 	$post_id = $post->ID;
 	return $post_id;
 }
+
 //add_action( 'wp_before_admin_bar_render', 'vulgar_toolbar', 999 );
 //add_post_type_support( $post_type, $supports )
 
