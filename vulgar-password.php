@@ -12,6 +12,8 @@
 
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 include_once('classes/class-vulgar-settings.php');
+include_once('classes/class-vulgar-db.php');
+
 include_once('inc/cpt.php');
 
 include_once('inc/script-styles.php');
@@ -23,8 +25,10 @@ function vulgar_db_sync() {
 }
 add_action( 'wp', 'vulgar_db_sync' );
 // Register Sidebars
-        add_shortcode( 'the_swear', 'query_the_swear' );
+add_shortcode( 'the_swear', 'query_the_swear' );
 function query_the_swear( ) {
+	wp_reset_postdata();
+
     $post_type = 'vulgar-term';
     $end = "";
     $count = 0;
@@ -45,11 +49,19 @@ function query_the_swear( ) {
             $end_loop = true;
         }
         
+        $num = rand(1, 999);
+
         //echo $count ;
         $count += 1;
     endwhile;
-    
-    $num = rand(0, 999);
+
+    $id = save_term_string( $final_str );
+    //save_vulgar_password( $final_str );
+    if ($id > 0 ) {
+    	var_dump($id);
+    	save_term_meta($id, 101);
+    }
+
 
     return $final_str.$num;
 
@@ -77,6 +89,28 @@ function clean_term_string($str, $index) {
 	}
 
 	return $clean_str;
+}
+
+function save_term_string($str) {
+	$iden = get_post_id();
+	$db = new VulgarDB();
+	$id = $db->save_vulgar_password($str, $iden);
+	return $id;
+}
+
+function save_term_meta($id, $rating) {
+	$db = new VulgarDB();
+	$id = $db->save_vulgar_meta($id, $rating);
+	return $id;
+}
+
+//add_action( 'init', 'get_post_id' );
+function get_post_id() {
+	    wp_reset_postdata();
+
+	global $post, $post_id;
+	$post_id = $post->ID;
+	return $post_id;
 }
 //add_action( 'wp_before_admin_bar_render', 'vulgar_toolbar', 999 );
 //add_post_type_support( $post_type, $supports )

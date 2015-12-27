@@ -11,8 +11,6 @@ add_action('init','flush_permalinks');
 
  function flush_permalinks() {
  		reg_term_cpt();
-        reg_vulgar_collection();
-        reg_vulgar_tags();
         flush_rewrite_rules();
     }
      function reg_term_cpt() {
@@ -26,7 +24,7 @@ add_action('init','flush_permalinks');
         'name_admin_bar'        => __( 'Vulgar Term', 'text_domain' ),
         'archives'              => __( 'Term Archives', 'text_domain' ),
         'parent_item_colon'     => __( 'Parent Terms:', 'text_domain' ),
-        'all_items'             => __( 'All Terms', 'text_domain' ),
+        'all_items'             => __( 'Vulgar Terms', 'text_domain' ),
         'add_new_item'          => __( 'Add New Term', 'text_domain' ),
         'add_new'               => __( 'Add New', 'text_domain' ),
         'new_item'              => __( 'New Item', 'text_domain' ),
@@ -59,7 +57,7 @@ add_action('init','flush_permalinks');
 
             'show_in_admin_bar'=> true,
             'show_in_rest'=> true,
-            'supports' => array('title', 'editor','thumbnail','comments','trackbacks', 'custom-fields'), // 'custom-fields' , 'excerpt' 
+            'supports' => array( 'title', 'editor', 'thumbnail', 'comments', 'excerpt'), // 'custom-fields' , 'excerpt' 
           //  'rewrite' => array('slug' => 'Vulgar Term'),
             'capability_type' => 'post',
 
@@ -76,9 +74,43 @@ add_action('init','flush_permalinks');
 
         register_post_type( 'vulgar-term', $args );
 
+        $post_types = (array)$post_types;
 
         $labels = array( 
-            'name' => _x( 'Term Category', 'vulgarities' ),
+            'name' => _x( 'Term Tags', 'term-tags' ),
+            'singular_name' => _x( 'Collection', 'collections' ),
+            'search_items' => _x( 'Search Collections', 'collections' ),
+            'popular_items' => _x( 'Popular Collections', 'collections' ),
+            'all_items' => _x( 'All Collections', 'collections' ),
+            'parent_item' => _x( 'Parent Collection', 'collections' ),
+            'parent_item_colon' => _x( 'Parent Collection:', 'collections' ),
+            'edit_item' => _x( 'Edit Collection', 'collections' ),
+            'update_item' => _x( 'Update Collection', 'collections' ),
+            'add_new_item' => _x( 'Add New Collection', 'collections' ),
+            'new_item_name' => _x( 'New Collections', 'collections' ),
+            'separate_items_with_commas' => _x( 'Separate Collections with commas', 'collections' ),
+            'add_or_remove_items' => _x( 'Add or remove Collections', 'collections' ),
+            'choose_from_most_used' => _x( 'Choose from the most used Collections', 'collections' ),
+            'menu_name' => _x( 'Term Tags', 'collections' ),
+        );
+
+        $args = array( 
+            'labels' => $labels,
+            'public' => true,
+            'show_in_nav_menus' => true,
+            'show_ui' => true,
+            
+            'show_tagcloud' => true,
+            'show_admin_column' => true,
+            'hierarchical' => false,
+            'rewrite' => array('slug' => 'term-tags'),
+            'query_var' => true
+        );
+
+        register_taxonomy( 'term-tags', array('vulgar-term'), $args );
+
+        $labels = array( 
+            'name' => _x( 'Categories', 'vulgarities' ),
             'singular_name' => _x( 'Term Category', 'vulgarities' ),
             'search_items' => _x( 'Search Term Category', 'vulgarities' ),
             'popular_items' => _x( 'Popular Term Category', 'vulgarities' ),
@@ -92,7 +124,7 @@ add_action('init','flush_permalinks');
             'separate_items_with_commas' => _x( 'Separate Term Category with commas', 'vulgarities' ),
             'add_or_remove_items' => _x( 'Add or remove Term Category', 'vulgarities' ),
             'choose_from_most_used' => _x( 'Choose from the most used Term Category', 'vulgarities' ),
-            'menu_name' => _x( 'Term Category', 'vulgarities' ),
+            'menu_name' => _x( 'Categories', 'vulgarities' ),
         );
 
         $args = array( 
@@ -109,111 +141,7 @@ add_action('init','flush_permalinks');
         );
 
         register_taxonomy( 'vulgarities', array('vulgar-term'), $args );
+      //  add_post_type_support( 'vulgar-term', array( 'aside', 'quote' ));
+
+        //add_post_type_support( 'vulgar-term', 'post-formats' );
     }
-
-    function reg_vulgar_collection( ) {
-        $post_types = (array)$post_types;
-
-        $labels = array( 
-            'name' => _x( 'Collections', 'collections' ),
-            'singular_name' => _x( 'Collection', 'collections' ),
-            'search_items' => _x( 'Search Collections', 'collections' ),
-            'popular_items' => _x( 'Popular Collections', 'collections' ),
-            'all_items' => _x( 'All Collections', 'collections' ),
-            'parent_item' => _x( 'Parent Collection', 'collections' ),
-            'parent_item_colon' => _x( 'Parent Collection:', 'collections' ),
-            'edit_item' => _x( 'Edit Collection', 'collections' ),
-            'update_item' => _x( 'Update Collection', 'collections' ),
-            'add_new_item' => _x( 'Add New Collection', 'collections' ),
-            'new_item_name' => _x( 'New Collections', 'collections' ),
-            'separate_items_with_commas' => _x( 'Separate Collections with commas', 'collections' ),
-            'add_or_remove_items' => _x( 'Add or remove Collections', 'collections' ),
-            'choose_from_most_used' => _x( 'Choose from the most used Collections', 'collections' ),
-            'menu_name' => _x( 'Collections', 'collections' ),
-        );
-
-        $args = array( 
-            'labels' => $labels,
-            'public' => true,
-            'show_in_nav_menus' => true,
-            'show_ui' => true,
-            
-            'show_tagcloud' => true,
-            'show_admin_column' => true,
-            'hierarchical' => true,
-            //'rewrite' => array('slug' => 'collections'),
-            'query_var' => true
-        );
-
-        register_taxonomy( 'collections', array('vulgar-term'), $args );
-    }
-
-  function reg_vulgar_tags( ) {
-
-        $labels = array( 
-            'name' => _x( 'vulgar-tags', 'vulgar-tags' ),
-            'singular_name' => _x( 'Vulgar Tags', 'vulgar-tags' ),
-            'search_items' => _x( 'Search vulgar-tags', 'vulgar-tags' ),
-            'popular_items' => _x( 'Popular vulgar-tags', 'vulgar-tags' ),
-            'all_items' => _x( 'All vulgar-tags', 'vulgar-tags' ),
-            'parent_item' => _x( 'Parent Vulgar Tags', 'vulgar-tags' ),
-            'parent_item_colon' => _x( 'Parent Vulgar Tags:', 'vulgar-tags' ),
-            'edit_item' => _x( 'Edit Vulgar Tags', 'vulgar-tags' ),
-            'update_item' => _x( 'Update Vulgar Tags', 'vulgar-tags' ),
-            'add_new_item' => _x( 'Add New Vulgar Tags', 'vulgar-tags' ),
-            'new_item_name' => _x( 'New vulgar-tags', 'vulgar-tags' ),
-            'separate_items_with_commas' => _x( 'Separate vulgar-tags with commas', 'vulgar-tags' ),
-            'add_or_remove_items' => _x( 'Add or remove vulgar-tags', 'vulgar-tags' ),
-            'choose_from_most_used' => _x( 'Choose from the most used vulgar-tags', 'vulgar-tags' ),
-            'menu_name' => _x( 'vulgar-tags', 'vulgar-tags' ),
-        );
-
-        $args = array( 
-            'labels' => $labels,
-            'public' => true,
-            'show_in_nav_menus' => true,
-            'show_ui' => true,
-            
-            'show_tagcloud' => true,
-            'show_admin_column' => true,
-            'hierarchical' => false,
-            //'rewrite' => array('slug' => 'vulgar-tags'),
-            'query_var' => true
-        );
-
-        register_taxonomy( 'vulgar-tags', array('vulgar-term'), $args );
-     /**
-    * Taxonomy for Vulgar Term CPT categories
-    */
-
-    /*function d() {
-        add_shortcode( 'the_swear', 'query_the_swear' );
-function query_the_swear( ) {
-    $post_type = 'swear';
-    $end = "";
-    $count = 0;
-    $args = array( 'post_type' => $post_type,
-                   'posts_per_page' => -1,
-                   'orderby' => 'rand'
-                   );
-    $loop = new WP_Query( $args );
-    //var_dump($loop);
-    while ( $loop->have_posts() ) : $loop->the_post();
-        //echo the_title();
-        $str .= get_the_title();
-
-        if (strlen($str) <= 35) {
-            $end = $str;
-        }
-        
-        //echo $count ;
-        $count += 1;
-    endwhile;
-    $final = str_replace(" ", "", $end);
-
-    return $final;
-
-    wp_reset_postdata();
-}
-    }*/
-   }

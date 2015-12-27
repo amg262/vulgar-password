@@ -25,17 +25,34 @@ class VulgarPasswordSettings {
      */
     public function add_vulgar_password_menu_page() {
       
-        add_submenu_page(
+        /*add_submenu_page(
             'options-general.php',
             'Vulgar Password',
             'Vulgar Password',
             'manage_options',
             'vulgar-password',
+            array( $this, '' )//,
+            //plugins_url('vulgar-password/assets/icon-20x20.png'), 2
+        );*/
+        
+        add_submenu_page(
+            'edit.php?post_type=vulgar-term',
+            'Password List',
+            'Password List',
+            'manage_options',
+            'passwords',
+            array( $this, 'create_vulgar_password_list_page' )//,
+            //plugins_url('vulgar-password/assets/icon-20x20.png'), 2
+        );
+        add_submenu_page(
+            'edit.php?post_type=vulgar-term',
+            'Settings',
+            'Settings',
+            'manage_options',
+            'vulgar-settings',
             array( $this, 'create_vulgar_password_menu_page' )//,
             //plugins_url('vulgar-password/assets/icon-20x20.png'), 2
         );
-    
-        
     }
 
     public function create_vulgar_password_menu_page() {
@@ -52,6 +69,26 @@ class VulgarPasswordSettings {
                 settings_fields( 'vulgar_password_options_group' );
                 do_settings_sections( 'vulgar-password-options-admin' );
                 submit_button('Save All Options');
+            ?>
+            </form>
+        </div>
+            <?php //echo gtm_get_sidebar(); ?>
+        </div>
+        <?php
+    }
+
+    public function create_vulgar_password_list_page() {
+        // Set class property
+        $this->vulgar_password_options = get_option( 'vulgar_password_option' );
+        ?>
+        <div class="wrap" style="max-width:60%; width:100%; float:left;">
+            <div>
+            <h1>Password List</h1>
+            <form method="post" action="options.php">
+
+            <?php
+                // This prints out all hidden setting fields
+                
             ?>
             </form>
         </div>
