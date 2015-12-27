@@ -36,10 +36,10 @@ class VulgarDB {
     public function __construct() {
         global $wpdb;
         $this->dbase = $wpdb;
-        $this->tbl_name = $this->dbase->prefix . 'vulgar_password';
+        //$this->tbl_name = $this->dbase->prefix . 'vulgar_password';
         
         add_action( 'admin_init', array( &$this, 'install_vulgar_db' ) );
-        add_action( 'admin_init', array( &$this, 'install_vulgar_db_meta' ) );
+        //add_action( 'admin_init', array( &$this, 'install_vulgar_db_meta' ) );
 
         //add_action( 'save_post')
     }
@@ -57,35 +57,12 @@ class VulgarDB {
           password VARCHAR(255) NOT NULL,
           primary_time DATETIME,
           is_active VARCHAR(5) DEFAULT 'off',
-          UNIQUE KEY id (id) 
-        ); ";
+          UNIQUE KEY id (id) ); ";
+
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
 
-       // var_dump($sql);
-
-    }
-
-    public function install_vulgar_db_meta() {
-      //public function install_required_tables() {
-      global $wpdb;
-        $this->dbase = $wpdb;
-       $this->tbl_name = $this->dbase->prefix . 'vulgar_password_meta';
-        $charset_collate = $this->dbase->get_charset_collate();
-
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->tbl_name} (
-          id INT(200) NOT NULL AUTO_INCREMENT,
-          password_id INT(200) ,
-          rating DOUBLE(3,1) DEFAULT 0,
-          primary_time DATETIME,
-          is_active VARCHAR(5) DEFAULT 'off',
-          UNIQUE KEY id (id),
-        ); ";
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
-
-                //var_dump($sql);
-
+        var_dump($sql);
 
     }
 
@@ -111,26 +88,7 @@ class VulgarDB {
 
       return $index;
     }
-    
-    public function save_vulgar_meta($password_id, $rating) {
-      global $wpdb, $table;
-      $index = 0;
-     // $tbl_name = 'gtm_postmeta';
-      $table = $wpdb->prefix . 'vulgar_password_meta';
 
-      $wpdb->insert($table, 
-          array( 
-              'password_id' => $password_id,
-              'rating' => $rating,
-              'primary_time' => current_time( 'mysql' ),
-                            'is_active' => 'on'
-
-          ));
-      
-      $index = $wpdb->insert_id;
-
-      return $index;
-    }
 
 }
 

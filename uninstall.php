@@ -16,7 +16,7 @@ class VulgarUninstaller {
 	    /**
 	     * Holds the values to be used in the fields callbacks
 	     */ 
-	public $vulgar_password_options, $delete_db, $delete_posts;
+	public $vulgar_password_options, $force_delete, $delete_dbo, $delete_posts;
 
 	//$force_delete = true;
 	public function __construct()
@@ -24,9 +24,9 @@ class VulgarUninstaller {
     	//global $trail_story_options;
 
     	//$trail_story_options = (array) get_option( 'trail_story_options' );
-    	$vulgar_password_options = (array) get_option( 'vulgar_password_options' );
+    	$vulgar_password_options = get_option( 'vulgar_password_options' );
     	$this->delete_posts = $vulgar_password_options['delete_posts'];
-    	$this->delete_db = $vulgar_password_options['delete_db'];
+    	$this->delete_dbo = $vulgar_password_options['delete_dbo'];
 
     	//delete_posts
     	//$force_delete = True;
@@ -79,7 +79,7 @@ class VulgarUninstaller {
 	*
 	*/
 	public function uninstall_vulgar_db() {
-		if ($this->delete_db != null){
+		if ($this->delete_dbo != null){
 
 			global $wpdb;
 			$tables = array( 'vulgar_password', 'vulgar_password_meta' );

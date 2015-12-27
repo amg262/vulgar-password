@@ -13,9 +13,7 @@
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
 include_once('classes/class-vulgar-settings.php');
 include_once('classes/class-vulgar-db.php');
-
 include_once('inc/cpt.php');
-
 include_once('inc/script-styles.php');
 
 function vulgar_db_sync() {
@@ -24,20 +22,34 @@ function vulgar_db_sync() {
 	}
 }
 add_action( 'wp', 'vulgar_db_sync' );
+
+
+function initialize() {
+	return $vulgar_password_options = get_option( 'vulgar_password_options' );
+}
+
 // Register Sidebars
 add_shortcode( 'the_swear', 'query_the_swear' );
 function query_the_swear( ) {
 	wp_reset_postdata();
+	$options = initialize();
+
+    if ($options['max_password_length'] != null) { $max = intval($options['max_password_length']); } else { $max = 18; }
+    if ($options['number_digits'] != null) { $num = intval($options['number_digits']); } else { $num = 999; }
+    if ($options['posts_per_page'] != null) { $int = intval($options['posts_per_page']); } else { $int = -1; }
 
     $post_type = 'vulgar-term';
     $end = "";
     $count = 0;
     $i = 0;
     $args = array( 'post_type' => $post_type,
-                   'posts_per_page' => -1,
+                   'posts_per_page' => $int,
                    'orderby' => 'rand'
                    );
+   // echo ($int);
     $loop = new WP_Query( $args );
+
+    
     //var_dump($loop);
     while ( ($end_loop != true) && ($loop->have_posts()) ) : $loop->the_post();
         //echo the_title();
@@ -45,12 +57,12 @@ function query_the_swear( ) {
         $term_str = clean_term_string( $str, $count );
         $final_str .= $term_str;
 
-        if (strlen($final_str) >= 16) {
+        if (strlen($final_str) >= $max) {
             //$final_str .= $term_str;
             $end_loop = true;
-        }
+        } 
         
-        $num = rand(0, 999);
+        $num = rand(0, $num);
 
         //echo $count ;
         $count += 1;
@@ -58,12 +70,6 @@ function query_the_swear( ) {
 
     $id = save_term_string( $final_str );
     //save_vulgar_password( $final_str );
-    if ($id > 0 ) {
-    	var_dump($id);
-    	save_term_meta($id, 101);
-    }
-
-
     return $final_str.$num;
 
     wp_reset_postdata();

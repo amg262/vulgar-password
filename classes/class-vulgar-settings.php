@@ -253,23 +253,7 @@ class VulgarPasswordSettings {
                         <tr>
                             <?php //$key = 'delete_data'; ?>
                             <th scope="row">
-                                Min Password Length
-                            </th>
-                            <td>
-       
-                                <fieldset><?php $key = 'min_password_length'; ?>
-                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
-                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="12" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
-                                        
-                                    </label>
-                                <p class="description">Use this as a factory restore.</p>
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <?php //$key = 'delete_data'; ?>
-                            <th scope="row">
-                                Max Password Length
+                                Max Password String Length
                             </th>
                             <td>
        
@@ -313,21 +297,6 @@ class VulgarPasswordSettings {
                             </td>
                         </tr>
 
-                         <tr>
-                            <th scope="row">
-                                Order by
-                            </th>
-                            <td>
-                                <fieldset><?php $key = 'order_by'; ?>
-                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
-                                        <input id='vulgar_password_options[<?php echo $key; ?>]' placeholder="rand" name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
-                                        Default of Random
-                                    </label>
-                                <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
-                                </fieldset>
-                                
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
     
