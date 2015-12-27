@@ -32,6 +32,7 @@ function query_the_swear( ) {
     $post_type = 'vulgar-term';
     $end = "";
     $count = 0;
+    $i = 0;
     $args = array( 'post_type' => $post_type,
                    'posts_per_page' => -1,
                    'orderby' => 'rand'
@@ -44,12 +45,12 @@ function query_the_swear( ) {
         $term_str = clean_term_string( $str, $count );
         $final_str .= $term_str;
 
-        if (strlen($final_str) >= 14) {
+        if (strlen($final_str) >= 16) {
             //$final_str .= $term_str;
             $end_loop = true;
         }
         
-        $num = rand(1, 999);
+        $num = rand(0, 999);
 
         //echo $count ;
         $count += 1;
@@ -70,7 +71,7 @@ function query_the_swear( ) {
 
 function clean_term_string($str, $index) {
 	$clean_str = "";
-
+	$rand = rand(1,strlen($str));
 	if ($str != null && $str != "") {
 
 
@@ -80,8 +81,12 @@ function clean_term_string($str, $index) {
 		$str5 = str_replace(".", "", $str4);
 		$str6 = str_replace("-", "", $str5);
 
+
 		if ($index <= 1) {
 			$clean_str = ucfirst($str6);
+		} elseif (is_int($rand % $index)) {
+			$clean_str = ($str6);
+
 		} else {
 			$clean_str = $str6;
 		}

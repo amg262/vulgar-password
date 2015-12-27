@@ -63,7 +63,8 @@ add_action('init','flush_permalinks');
 
         //'register_meta_box_cb'=>'add_cpt_meta',
            // 'description'=>'',
-                    
+            //'menu_icon' => 'dashicons-unlock',
+            'menu_icon' => plugins_url('vulgar-password/assets/icon-20x20.png'),
             'publicly_queryable' => true,
             'exclude_from_search' => false,
             'has_archive' => true,

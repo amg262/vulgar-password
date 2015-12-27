@@ -37,8 +37,8 @@ class VulgarPasswordSettings {
         
         add_submenu_page(
             'edit.php?post_type=vulgar-term',
-            'Password List',
-            'Password List',
+            'Passwords',
+            'Passwords',
             'manage_options',
             'passwords',
             array( $this, 'create_vulgar_password_list_page' )//,
@@ -59,7 +59,7 @@ class VulgarPasswordSettings {
         // Set class property
         $this->vulgar_password_options = get_option( 'vulgar_password_option' );
         ?>
-        <div class="wrap" style="max-width:60%; width:100%; float:left;">
+        <div class="wrap" style="max-width:90%; width:100%; float:left;">
             <div>
             <h1>Vulgar Password</h1>
             <form method="post" action="options.php">
@@ -143,9 +143,14 @@ class VulgarPasswordSettings {
      * Print the Section text
      */
     public function print_option_info() { ?>
-        <div id="plugin-info-header" class="plugin-info header">
+        <div id="plugin-info-header" class="plugin-info header" style="width:80%;">
             <div class="plugin-info content">
+                <div>
+                        <img style="display:block; float:right; margin:10px 0; padding: 10px;" src="<?php echo plugins_url('vulgar-password/assets/icon-128x128.png'); ?>" />
+                    </div>
                 <div class="credits">
+                    <br>
+
                     <div>
                         <h4>Lead Developers</h4>
                         <a target="_blank" href="http://andrewgunn.xyz">Andrew Gunn</a>
@@ -238,8 +243,7 @@ class VulgarPasswordSettings {
                         </tr>
                     </tbody>
                 </table>
-                    
-                </p>
+    
                 <!--<p>
                     <?php //$key = 'text'; ?>
                     <label for="vulgar_password_options[text]">Text</label>
@@ -248,6 +252,160 @@ class VulgarPasswordSettings {
                     
                 </p>-->
                 <?php submit_button('Save All Options'); ?>
+            </div>
+
+            <p><hr></p>
+            
+            <div style="clear:both;height:0;"></div>
+
+            <div id="plugin-info-header" class="plugin-info header">
+            
+                <h3><strong>Password Settings</strong></h3>
+                <hr>
+                <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <?php //$key = 'delete_data'; ?>
+                            <th scope="row">
+                                Password Length
+                            </th>
+                            <td>
+       
+                                <fieldset><?php $key = 'password_length'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        
+                                    </label>
+                                <p class="description">Use this as a factory restore.</p>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <?php //$key = 'delete_data'; ?>
+                            <th scope="row">
+                                Number of random digits
+                            </th>
+                            <td>
+                                <fieldset><?php $key = 'number_digits'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        
+                                    </label>
+                                <!--<p class="description">Use this as a factory restore.</p>-->
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Posts Per Page
+                            </th>
+                            <td>
+                                <fieldset><?php $key = 'posts_per_page'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        Default of -1 (all)
+                                    </label>
+                                <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <!--<p>
+                    <?php //$key = 'text'; ?>
+                    <label for="vulgar_password_options[text]">Text</label>
+                    <input id='vulgar_password_options[text]' name="vulgar_password_options[text]" type="text"
+                     value="<?php //echo $vulgar_password_options[$key]; ?>" />
+                    
+                </p>-->
+                <?php //submit_button('Save All Options'); ?>
+            </div>
+
+            <p><hr></p>
+            
+            <div style="clear:both;height:0;"></div>
+
+            <div id="plugin-info-header" class="plugin-info header">
+            
+                <h3><strong>Advanced Settings</strong></h3>
+                <hr>
+                <table class="form-table">
+                    <tbody>
+                        <tr>
+                            <?php //$key = 'delete_data'; ?>
+                            <th scope="row">
+                                GitHub URL
+                            </th>
+                            <td>
+       
+                                <fieldset><?php $key = 'github_url'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        
+                                    </label>
+                                <p class="description">Use this as a factory restore.</p>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <?php //$key = 'delete_data'; ?>
+                            <th scope="row">
+                                RestAPI
+                            </th>
+                            <td>
+                                <fieldset><?php $key = 'rest_api'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        
+                                    </label>
+                                <!--<p class="description">Use this as a factory restore.</p>-->
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Input URL
+                            </th>
+                            <td>
+                                <fieldset><?php $key = 'input_url'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        Default of -1 (all)
+                                    </label>
+                                <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">
+                                Output URL
+                            </th>
+                            <td>
+                                <fieldset><?php $key = 'output_url'; ?>
+                                    <label for="vulgar_password_options[<?php echo $key; ?>]">
+                                        <input id='vulgar_password_options[<?php echo $key; ?>]' name="vulgar_password_options[<?php echo $key; ?>]" type="text" value="<?php echo $vulgar_password_options[$key]; ?>" />
+                                        Default of -1 (all)
+                                    </label>
+                                <p class="description"><span class="icon warn">&nbsp;</span>Use at your own risk. A backup is recommended beforehand.</p>
+                                </fieldset>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <!--<p>
+                    <?php //$key = 'text'; ?>
+                    <label for="vulgar_password_options[text]">Text</label>
+                    <input id='vulgar_password_options[text]' name="vulgar_password_options[text]" type="text"
+                     value="<?php //echo $vulgar_password_options[$key]; ?>" />
+                    
+                </p>-->
+                <?php //submit_button('Save All Options'); ?>
             </div>
 
             <p><hr></p>
