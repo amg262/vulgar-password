@@ -24,21 +24,48 @@ class VulgarPasswordSettings {
      * Add options page
      */
     public function add_vulgar_password_menu_page() {
-        
+        $count = wp_count_posts('trail-story');
+        $pending_count = $count->pending;
+
         add_menu_page(
             'Vulgar Password',
             'Vulgar Password',
             'manage_options',
             'vulgar-password',
             array( $this, 'create_vulgar_password_menu_page' ),
-            plugins_url('vulgar-password/assets/icon-20x20.png'), 5000
+            plugins_url('vulgar-password/assets/icon-20x20.png'), 2
         );
     
-    
+        add_filter( 'add_menu_classes', array( $this, 'show_pending_number_stories') );
+
        
         
     }
-    
+    /**
+    * Shows pending for trail stories
+    */
+    public function show_pending_number_stories( $menu ) {
+        $type = "trail-story";
+        $status = "pending";
+        $num_posts = wp_count_posts( $type, 'readable' );
+        $pending_count = 0;
+        if ( !empty($num_posts->$status) )
+            $pending_count = $num_posts->$status;
+        // build string to match in $menu array
+        if ($type == 'post') {
+            $menu_str = 'edit.php';
+        } else {
+            $menu_str = 'edit.php?post_type=' . $type;
+        }
+        // loop through $menu items, find match, add indicator
+        foreach( $menu as $menu_key => $menu_data ) {
+            if( $menu_str != $menu_data[2] )
+                continue;
+            $menu[$menu_key][0] .= " <span class='awaiting-mod count-$pending_count'><span class='pending-count'>" . number_format_i18n($pending_count) . '</span></span>';
+        }
+        return $menu;
+    }
+
     public function create_vulgar_password_menu_page() {
         // Set class property
         $this->vulgar_password_options = get_option( 'vulgar_password_option' );
@@ -75,7 +102,7 @@ class VulgarPasswordSettings {
         add_settings_section(
             'vulgar_password_options_section', // ID
             '', // Title
-            array( $this, '' ), // Callback
+            array( $this, 'print_option_info' ), // Callback
             'vulgar-password-options-admin' // Page
         );
 
@@ -95,7 +122,7 @@ class VulgarPasswordSettings {
      * @param array $input Contains all settings fields as array keys
      */
     public function sanitize( $input ) {
-        $new_input = array();
+        //$new_input = array();
         /*if( isset( $input['vulgar_password_option'] ) )
             $new_input['vulgar_password_option'] = absint( $input['vulgar_password_option'] );
         if( isset( $input['trail_story_setting'] ) )

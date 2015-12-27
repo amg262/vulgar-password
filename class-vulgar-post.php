@@ -6,23 +6,21 @@
 */
 // Exit if accessed directly
 defined( 'ABSPATH' ) or die( 'Plugin file cannot be accessed directly.' );
-include_once('class-vulgar-db.php');
 
-
-interface i_VulgarDB {
+interface i_VulgarPost {
     
 }
 /**
 * PLUGIN SETTINGS PAGE
 */
-class VulgarDB {
+class VulgarPost {
       /**
        * Holds the values to be used in the fields callbacks
        */
-  global $wpdb;
-  global $vulgar_db;
-  global $vulgar_vulgarity;
-  global $vulgar_vulgarity_options;
+  private $wpdb;
+  private $vulgar_db;
+  private $vulgar_vulgarity;
+  private $vulgar_vulgarity_options;
   
   private $vulgarity, $password;
         /**
@@ -39,12 +37,12 @@ class VulgarDB {
     }
     
     public function vulgar_post_init() {
-        require_once( ABSPATH . 'wp-admin/includes/image.php' );
+       // require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
       //add_shortcode( 'the_term', 'query_the_swear' );
-            add_action( 'init', 'setup_vulgar_cpt' )
+            add_action( 'init', array( &$this, 'setup_vulgar_cpt' ));
 
-      add_action( 'admin_init', 'flush_permalinks' )
+     // add_action( 'admin_init', 'flush_permalinks' );
 
     }
 
@@ -54,9 +52,9 @@ class VulgarDB {
         $this->reg_vulgarity_category( array('vulgarity') );
         $this->reg_password_cat( array('password') );
         $this->reg_vulgar_collection( 
-                        array('vulgarity', 'password' 'vulgarities', 'passwords' )
+                        array('vulgarity', 'password', 'vulgarities', 'passwords' )
                         );
-        $this->flush_permalinks();
+        //$this->flush_permalinks();
         
     }
     public function flush_permalinks() {
@@ -252,13 +250,11 @@ public function reg_password_cat( $post_types ) {
     );
 
     register_taxonomy( 'password-category', $post_types, $args );
-}
-
      /**
     * Taxonomy for vulgarity CPT categories
     */
 
-    function d() {
+    /*function d() {
         add_shortcode( 'the_swear', 'query_the_swear' );
 function query_the_swear( ) {
     $post_type = 'swear';
@@ -287,10 +283,10 @@ function query_the_swear( ) {
 
     wp_reset_postdata();
 }
-    }
-   
+    }*/
+   }
 }
 
-$vulgar_db = new VulgarDB();
-
+$new_vuglar = new VulgarPost();
+$new_vuglar->setup_vulgar_cpt();
 

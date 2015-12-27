@@ -1,0 +1,62 @@
+
+/** STYLES FOR MENU PAGES IN TOOLS.PHP */
+
+.icon {
+    opacity: 1;
+}
+.icon:hover {
+    opacity: .7;
+}
+.star {
+    background: url('../assets/icon-20x20.png') no-repeat left center;
+    display: inline-block;
+    height:auto;
+    width:20px;
+    margin:5px;
+    float:left;
+}
+.info {
+    background: url('../assets/info.png') no-repeat left center;
+    display: inline-block;
+    height:auto;
+    width:15px;
+    margin:5px;
+    float:left;
+}
+.warn {
+    background: url('../assets/warn.png') no-repeat left center;
+    display: inline-block;
+    height:auto;
+    width:15px;
+    margin:0 5px;
+    float:left;
+}
+.closebtn {
+    background: url('../assets/close.png') no-repeat right center;
+    opacity: .5;
+    display: block;
+    height:32px;
+    width:32px;
+    margin:0 5px;
+    float:right;
+}
+.closebtn:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+.success {
+    background: url('../assets/success.png') no-repeat left center;
+    display: inline-block;
+    height:32px;
+    width:32px;
+    margin:0 5px;
+    float:left;
+}
+.non-success {
+    background: url('../assets/error.png') no-repeat left center;
+    display: inline-block;
+    height:32px;
+    width:32px;
+    margin:0 5px;
+    float:left;
+}

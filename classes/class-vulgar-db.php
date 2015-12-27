@@ -18,11 +18,11 @@ class VulgarDB {
       /**
        * Holds the values to be used in the fields callbacks
        */
-  global $wpdb;
-  global $vulgar_password_options;
+  public $wpdb;
+  public $vulgar_password_options;
   
-  private $dbase, $tbl_name, $wp_tbl;
-  private $vulgar_password; 
+  public $dbase, $tbl_name, $wp_tbl;
+  public $vulgar_password; 
         
         /**
          * The table name where emails will be saved
@@ -33,7 +33,7 @@ class VulgarDB {
         
 
     public function __construct() {
-        //global $wpdb;
+        global $wpdb;
         $this->dbase = $wpdb;
         $this->tbl_name = $this->dbase->prefix . 'vulgar_password';
         
@@ -43,21 +43,32 @@ class VulgarDB {
 
     public function install_vulgar_db() {
       //public function install_required_tables() {
+        global $wpdb;
+        $this->dbase = $wpdb;
+        $this->tbl_name = $this->dbase->prefix . 'vpass_term';
         $charset_collate = $this->dbase->get_charset_collate();
 
         $sql = "CREATE TABLE IF NOT EXISTS {$this->tbl_name} (
           id INT(200) NOT NULL AUTO_INCREMENT,
-          post_id INT(200),
           password VARCHAR(255),
           primary_time DATETIME,
           is_active VARCHAR(20) DEFAULT 'on',
           UNIQUE KEY id (id)
-        )";
-        
+        ); ";
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        $db_query = dbDelta( $sql );
+        dbDelta( $sql );
+        $this->tbl_name = $this->dbase->prefix . 'vpass_postmeta';
 
-        return $db_query;
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->tbl_name} (
+          id INT(200) NOT NULL AUTO_INCREMENT,
+          post_id INT(200),
+          term_id INT(200),
+          is_active VARCHAR(20) DEFAULT 'on',
+          UNIQUE KEY id (id)
+        ); ";
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
+
     }
 
     public function save_vulgar_password() {
